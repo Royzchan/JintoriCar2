@@ -57,6 +57,8 @@ public class GameManager : MonoBehaviour
 
     [SerializeField, Header("終盤時のBGMのAudioSource")]
     private AudioSource _lastAudio;
+    //BGMが変わったかどうか
+    private bool _changeBGM = false;
 
     [Header("～マップ関係～")]
     [SerializeField, Header("最初のマップタイルの色")]
@@ -173,6 +175,16 @@ public class GameManager : MonoBehaviour
         {
             //制限時間を引いていく
             _timeLimit -= Time.deltaTime;
+
+            if(_timeLimit<=20)
+            {
+                if(!_changeBGM)
+                {
+                    _normalAudio.Stop();
+                    _lastAudio.Play();
+                    _changeBGM = true;
+                }
+            }
 
             //制限時間が0になったら
             if (_timeLimit <= 0)

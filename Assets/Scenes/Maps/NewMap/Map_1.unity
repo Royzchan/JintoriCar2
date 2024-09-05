@@ -28828,7 +28828,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cartHP: 100
   _cartType: 0
-  _cartColor: 0
+  _cartColor: 2
   _cart: {fileID: 3479669371358481567, guid: 2b9e9ced1d6f91c45a4097a870782ef8, type: 3}
   _healthGauge: {fileID: 77178447}
   _itemImageChanger: {fileID: 1308069192}
@@ -59482,7 +59482,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 7a752e61be8331d4c93ab435fcb9cdd2, type: 3}
   m_PlayOnAwake: 0
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -64520,7 +64520,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cartHP: 100
   _cartType: 1
-  _cartColor: 2
+  _cartColor: 0
   _cart: {fileID: 3479669371358481567, guid: 2b9e9ced1d6f91c45a4097a870782ef8, type: 3}
   _healthGauge: {fileID: 1996532028}
   _itemImageChanger: {fileID: 667263849}
