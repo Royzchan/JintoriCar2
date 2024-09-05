@@ -51,6 +51,13 @@ public class GameManager : MonoBehaviour
     [SerializeField, Header("インクの減少量")]
     private float _playerInkDecValue = 3.0f;
 
+    [Header("～音楽関係～")]
+    [SerializeField, Header("通常時のBGMのAudioSource")]
+    private AudioSource _normalAudio;
+
+    [SerializeField, Header("終盤時のBGMのAudioSource")]
+    private AudioSource _lastAudio;
+
     [Header("～マップ関係～")]
     [SerializeField, Header("最初のマップタイルの色")]
     private Material _defaultMapTileColor;
@@ -114,7 +121,7 @@ public class GameManager : MonoBehaviour
 
     public float PlayerAccelerationValue { get { return _playerAccelerationValue; } }
 
-    public float PlayerInkDecValue {  get { return _playerInkDecValue; } }
+    public float PlayerInkDecValue { get { return _playerInkDecValue; } }
 
     public int MapTileNum() { return _mapTiles.Length; }
 
@@ -133,6 +140,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+
         //マップのタイルを最初に取得しておく
         _mapTiles = GameObject.FindGameObjectsWithTag("MapTile");
 
@@ -157,6 +165,7 @@ public class GameManager : MonoBehaviour
                 _countDown = 0;
                 //ゲームのプレイ中かどうかをtrueにする
                 _isPlaying = true;
+                _normalAudio.Play();
             }
         }
         //ゲーム中だった場合
