@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 859690132031011089}
   - component: {fileID: 5069940044548296655}
   - component: {fileID: 6954095940804689619}
+  - component: {fileID: 4432038556294706266}
   m_Layer: 0
   m_Name: CarCamera
   m_TagString: Untagged
@@ -108,6 +109,22 @@ MonoBehaviour:
   _zoomSpeed: 0.5
   _returnSpeed: 1
   _initPosReturnSpeed: 0.6
+--- !u!114 &4432038556294706266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 940137424316300161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 73e5fdc8bb02363418db72b85ea09524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _grayscaleMaterial: {fileID: 2100000, guid: 6ca633a8ecaaf8248a81fc5261a8750f, type: 2}
+  _stunImage: {fileID: 4793825732058150472, guid: 32654b1820098a740911a7f593f8adca, type: 3}
+  _stunPosY: 20
+  _stunTime: 2
 --- !u!1 &3479669371358481567
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,6 +217,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c04bca6e590f44a46919e1d825e9e1cd, type: 2}
   - {fileID: 2100000, guid: 8a223b801855df449bfc76b91dce0caa, type: 2}
   - {fileID: 2100000, guid: 506f6ff70f5c0174d922bd0dcfb7858e, type: 2}
+  _grayscaleEffect: {fileID: 4432038556294706266}
 --- !u!114 &1803494941998123419
 MonoBehaviour:
   m_ObjectHideFlags: 0

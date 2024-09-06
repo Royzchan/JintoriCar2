@@ -105,6 +105,9 @@ public class CarController : MonoBehaviour
     //カメラ関係
     private bool _moveFront = false;
 
+    [SerializeField, Header("グレーのシェーダー")]
+    private GrayscaleEffect _grayscaleEffect;
+
     #region ゲッター
 
     public float DefMaxInk { get { return _defaultMaxInk; } }
@@ -254,6 +257,8 @@ public class CarController : MonoBehaviour
             {
                 //時間を0にして
                 _stunTimer = 0;
+                //画面のグレーを戻す
+                _grayscaleEffect.GreyScale();
                 //スタンを戻す
                 _hitStun = false;
             }
@@ -590,5 +595,7 @@ public class CarController : MonoBehaviour
         _hitStun = true;
         //スタンの時間をセット
         _stunTimer = _gm.StunTime;
+        //画面をグレーに
+        _grayscaleEffect.GreyScale();
     }
 }
