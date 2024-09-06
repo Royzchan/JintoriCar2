@@ -591,11 +591,15 @@ public class CarController : MonoBehaviour
     //スタンを食らった時
     public void HitStun()
     {
-        //スタンしてる判定をオンに
-        _hitStun = true;
-        //スタンの時間をセット
-        _stunTimer = _gm.StunTime;
-        //画面をグレーに
-        _grayscaleEffect.GreyScale();
+        //スタンに当たっていなかった場合
+        if(!_hitStun)
+        {
+            //スタンしてる判定をオンに
+            _hitStun = true;
+            //スタンの時間をセット
+            _stunTimer = _gm.StunTime;
+            //画面をグレーに
+            _grayscaleEffect.GreyScale();
+        }
     }
 }

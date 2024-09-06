@@ -2,45 +2,68 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CameraController : MonoBehaviour
 {
-    [SerializeField, Header("ズーム時のスピード")]
-    private float _zoomSpeed = 0.5f;
     [SerializeField, Header("元の距離に戻るスピード")]
     private float _returnSpeed = 1f;
     [SerializeField, Header("初期位置に徐々に戻るスピード")]
     private float _initPosReturnSpeed = 0.05f;
+    [SerializeField,Header("カメラが少し遅れてくる速度")]
+    private float _smoothSpeed = 0.125f;
+    [SerializeField,Header("遅れる大きさ")]
+    private float _lateValue = 0.3f;
+    [SerializeField,Header("上下反転時に表示する画像")]
+    private Image _rotateImage;
+    [SerializeField,Header("何秒後に反転するか")]
+    private float _rotateTime;
+    [SerializeField,Header("上下反転時の画像のY座標設定")]
+    float _rotatePosY;
+
+    //RotateImageを配置するCanvas
+    private GameObject _canvas;
+    //RotateImageの座標指定でカメラの描画範囲を基準にする
+    Camera _camera;
+    //生成したrotateImageを保存
+    Image _image;
+
+    //上下反転するか
+    bool _isFlipped = false;
 
     //初期値
-    private Vector3 _localPos;
+    private Vector3 _initLocalPos;
     Quaternion _rot;
     private float _distance;
     string _distanceFormatted;
-    private float _zoomDistance;
+
+    private Vector3 _offset;// オフセット値
+
+    //カメラの位置が変わるときに基準となる位置を保存
+    private Vector3 _localPos;
 
     //Rayと壁が当たったポジション
     private Vector3 _wallHitPosition;
 
-    //ズーム中か判定
-    private bool _isZoom = false;
-
-    //ズーム後元の位置に戻してもいいか
-    private bool _isZoomReturn = true;
-
     //画面揺れ中か判定
     private bool _isCameraShake = false;
+
+    //左右移動中か
+    bool _isLate = false;
 
     // Start is called before the first frame update
     void Start()
     {
         //初期値
-        _localPos = transform.localPosition;
+        _initLocalPos = transform.localPosition;
         _rot = transform.localRotation;
         //プレイヤーとカメラの距離を計算
         _distance = Vector3.Distance(transform.parent.position, transform.position);
         //小数点第2位四捨五入
         _distanceFormatted = _distance.ToString("F1");
+        _localPos = transform.localPosition;
+
+        RotateImageInstantiate();
     }
 
     // Update is called once per frame
@@ -56,35 +79,8 @@ public class CameraController : MonoBehaviour
         {
             ReturnDis();
         }
-        ////Debug用入力
-        //if (Input.GetKey(KeyCode.Alpha1))
-        //{
-        //    CameraOperation(2f);
-        //}
-        //if (Input.GetKey(KeyCode.Alpha2))
-        //{
-        //    CameraOperation(-2f);
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha3))
-        //{
-        //    CameraRotate();
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha4))
-        //{
-        //    StartCoroutine(CameraShake(0.25f, 0.1f));
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha5))
-        //{
-        //    StartCoroutine(CameraZoom(0.1f));
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha6))
-        //{
-        //    ZoomFinish();
-        //}
-        //if (Input.GetKeyDown(KeyCode.Alpha7))
-        //{
-        //    Reset();
-        //}
+
+        LateUpdate();
     }
 
     //プレイヤーで呼ぶように
@@ -93,23 +89,40 @@ public class CameraController : MonoBehaviour
         StartCoroutine(CameraShake(0.25f, 0.1f));
     }
 
-    public void Zoom()
-    {
-        StartCoroutine(CameraZoom(0.1f));
-    }
-
     //カメラ操作（プレイヤーの周りを回転）
     //プラスマイナスで方向が変わる
     public void CameraOperation(float rotateSpeed)
     {
         transform.RotateAround(transform.parent.position, Vector3.up, rotateSpeed);
+        _localPos = transform.localPosition;
     }
 
     //カメラ回転（180度）
     //もう一度呼ぶともとに戻る
     public void CameraRotate()
     {
-        transform.localEulerAngles = transform.localEulerAngles + new Vector3(0f, 0f, 180f);
+        if (_isFlipped)
+        {
+            _isFlipped = !_isFlipped;
+        }
+        else
+        {
+            StartCoroutine(StartRotate(_rotateTime));
+        }
+    }
+
+    IEnumerator StartRotate(float rotateTime)
+    {
+        //上下反転のImageを表示
+        _image.gameObject.SetActive(true);
+
+        //rotateTime秒待つ
+        yield return new WaitForSeconds(rotateTime);
+
+        //上下反転
+        _isFlipped = !_isFlipped;
+        //Imageを非表示に
+        _image.gameObject.SetActive(false);
     }
 
     //カメラ揺れ（デフォルト値 : 0.25f, 0.1f）
@@ -132,7 +145,6 @@ public class CameraController : MonoBehaviour
             var y = _beforePos.y + Random.Range(-1f, 1f) * magnitude;
 
             transform.localPosition = new Vector3(x, y, _beforePos.z);
-
             _elapsed += Time.deltaTime;
 
             yield return null;
@@ -144,41 +156,12 @@ public class CameraController : MonoBehaviour
         _isCameraShake = false;
     }
 
-    //カメラズーム（目安 : 0.15f）
-    public IEnumerator CameraZoom(float value)
-    {
-        //ズーム中にさらにズームしない
-        if (_isZoom) yield break;
-
-        float _zoomCount = 0;
-        _isZoom = true;
-        _isZoomReturn = false;
-
-        while (_zoomCount < value)
-        {
-            _zoomCount += Time.deltaTime * _zoomSpeed;
-            //プレイヤーの方向を計算
-            Vector3 _dir = transform.parent.position - transform.position;
-            _dir = Vector3.Normalize(_dir);
-            //ズームする
-            transform.position = transform.position + _dir * _zoomCount;
-            //プレイヤーとカメラの距離を計算
-            _zoomDistance = Vector3.Distance(transform.parent.position, transform.position);
-            yield return null;
-        }
-    }
-
-    //ズーム終了
-    public void ZoomFinish()
-    {
-        _isZoomReturn = true;
-    }
-
     //カメラ位置リセット
     public void Reset()
     {
-        transform.localPosition = _localPos;
+        transform.localPosition = _initLocalPos;
         transform.localRotation = _rot;
+        _localPos = transform.localPosition;
     }
 
     //壁に埋まらないようにチェック
@@ -207,49 +190,21 @@ public class CameraController : MonoBehaviour
     //距離が初期値と違うときに調整
     void ReturnDis()
     {
-        if (_isZoomReturn)
-        {
-            //プレイヤーとカメラの距離を計算
-            float _dis = Vector3.Distance(transform.parent.position, transform.position);
-            //小数点第2位四捨五入
-            string _disFormatted = _dis.ToString("F1");
-            Vector3 _dir = transform.parent.position - transform.position;
-            _dir = Vector3.Normalize(_dir);
+        //プレイヤーとカメラの距離を計算
+        float _dis = Vector3.Distance(transform.parent.position, transform.position);
+        //小数点第2位四捨五入
+        string _disFormatted = _dis.ToString("F1");
+        Vector3 _dir = transform.parent.position - transform.position;
+        _dir = Vector3.Normalize(_dir);
 
-            //最初の距離と違ったら戻す
-            if (float.Parse(_distanceFormatted) > float.Parse(_disFormatted))
-            {
-                transform.position -= _dir * Time.deltaTime * _returnSpeed;
-            }
-            else if (float.Parse(_distanceFormatted) < float.Parse(_disFormatted))
-            {
-                transform.position += _dir * Time.deltaTime * _returnSpeed;
-            }
-            else
-            {
-                _isZoom = false;
-            }
+        //最初の距離と違ったら戻す
+        if (float.Parse(_distanceFormatted) > float.Parse(_disFormatted))
+        {
+            transform.position -= _dir * Time.deltaTime * _returnSpeed;
         }
-        else
+        else if (float.Parse(_distanceFormatted) < float.Parse(_disFormatted))
         {
-            //プレイヤーとカメラの距離を計算
-            float _dis = Vector3.Distance(transform.parent.position, transform.position);
-            //小数点第2位四捨五入
-            string _disFormatted = _dis.ToString("F1");
-            string _zoomDisFormatted = _zoomDistance.ToString("F1");
-
-            Vector3 _dir = transform.parent.position - transform.position;
-            _dir = Vector3.Normalize(_dir);
-                        
-            //最初の距離と違ったら戻す
-            if (float.Parse(_zoomDisFormatted) > float.Parse(_disFormatted))
-            {
-                transform.position -= _dir * Time.deltaTime * _returnSpeed;
-            }
-            else if (float.Parse(_zoomDisFormatted) < float.Parse(_disFormatted))
-            {
-                transform.position += _dir * Time.deltaTime * _returnSpeed;
-            }
+            transform.position += _dir * Time.deltaTime * _returnSpeed;
         }
     }
 
@@ -259,9 +214,10 @@ public class CameraController : MonoBehaviour
     public void InitPosReturn(bool isFront)
     {
         if (!isFront) return;
+        if (_isLate) return;
 
         //小数点第2位四捨五入
-        string _localPosFormatted = _localPos.x.ToString("F1");
+        string _localPosFormatted = _initLocalPos.x.ToString("F1");
         string _transformLocalPositionFormatted = transform.localPosition.x.ToString("F1");
 
         //floatに直して比較
@@ -273,5 +229,83 @@ public class CameraController : MonoBehaviour
         {
             CameraOperation(-_initPosReturnSpeed);
         }
+    }
+
+    void LateUpdate()
+    {
+        if (_isCameraShake) return;
+        Vector3 _desiredPosition = _localPos + _offset;
+
+        // カメラの位置をスムーズに補間
+        Vector3 _smoothedPosition = Vector3.Lerp(transform.localPosition, _desiredPosition, _smoothSpeed);
+
+        // カメラの位置を更新
+        transform.localPosition = _smoothedPosition;
+
+        // ターゲットの方向を向くための方向ベクトルを計算
+        Vector3 direction = transform.parent.position - transform.position;
+
+        // 回転を計算
+        Quaternion rotation = Quaternion.LookRotation(direction);
+
+        // 上下反転させるか
+        if (_isFlipped)
+        {
+            // X軸を180度回転して上下反転
+            rotation *= Quaternion.Euler(0f, 0f, 180f);
+        }
+
+        // 計算した回転を適用
+        transform.rotation = rotation;
+    }
+
+    public void Smooth(float value)
+    {
+        if(value == 0)
+        {
+            _isLate = false;
+            _offset.x = 0;
+            _offset.z = 0;
+        }
+        else if(value > 0)
+        {
+            _isLate = true;
+            // 角度をラジアンに変換
+            float _radians = transform.localEulerAngles.y * Mathf.Deg2Rad;
+            _offset.x = Mathf.Cos(_radians) * _lateValue;
+            _offset.z = -Mathf.Sin(_radians) * _lateValue;
+        }
+        else if (value < 0)
+        {
+            _isLate = true;
+            // 角度をラジアンに変換
+            float _radians = transform.localEulerAngles.y * Mathf.Deg2Rad;
+            _offset.x = -Mathf.Cos(_radians) * _lateValue;
+            _offset.z = Mathf.Sin(_radians) * _lateValue;
+        }
+    }
+
+    //初めに上下反転時の画像を生成、座標指定
+    void RotateImageInstantiate()
+    {
+        //親となるCanvasを設定
+        _canvas = GameObject.Find("2PVerCanvas");
+        //カメラを設定
+        _camera = GetComponent<Camera>();
+
+        // カメラの中心をワールド座標で取得
+        Vector3 cameraCenterWorld = _camera.ViewportToWorldPoint(new Vector3(0.5f, 0.5f, _camera.nearClipPlane));
+
+        // ワールド座標をスクリーン座標に変換
+        Vector2 screenPoint = _camera.WorldToScreenPoint(cameraCenterWorld);
+
+        // スクリーン座標をUIキャンバスのローカル座標に変換
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(_canvas.transform as RectTransform, screenPoint, _canvas.GetComponent<Canvas>().worldCamera, out Vector2 localPoint);
+        //生成
+        _image = Instantiate(_rotateImage, _canvas.transform);
+        // UI要素の位置を設定
+        _image.rectTransform.anchoredPosition = localPoint + new Vector2(0f, _rotatePosY * 10);
+        //最初は表示しない状態から始める
+        _image.gameObject.SetActive(false);
     }
 }

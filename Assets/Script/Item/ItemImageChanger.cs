@@ -94,7 +94,7 @@ public class ItemImageChanger : MonoBehaviour
                 break;
 
             case ItemType.Stun:
-                _image.sprite = _itemImage[3];
+                _image2.sprite = _itemImage[3];
                 break;
         }
 
