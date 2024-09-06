@@ -32,6 +32,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Header("アイテムのスポーン時間")]
     private float _itemSpawnTime = 5.0f;
 
+    [SerializeField, Header("ゲーム後半のアイテムのスポーン時間")]
+    private float _lastItemSpawnTime = 8.0f;
+
     [SerializeField, Header("何個アイテムを持てるか")]
     private int _maxHaveItem = 3;
 
@@ -176,13 +179,15 @@ public class GameManager : MonoBehaviour
             //制限時間を引いていく
             _timeLimit -= Time.deltaTime;
 
-            if(_timeLimit<=20)
+            if (_timeLimit <= 20)
             {
-                if(!_changeBGM)
+                if (!_changeBGM)
                 {
                     _normalAudio.Stop();
                     _lastAudio.Play();
                     _changeBGM = true;
+                    //アイテムのリスポーン時間を伸ばす
+                    _itemSpawnTime = _lastItemSpawnTime;
                 }
             }
 

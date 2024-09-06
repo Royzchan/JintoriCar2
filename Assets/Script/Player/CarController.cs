@@ -284,6 +284,11 @@ public class CarController : MonoBehaviour
                     Turn(-_inputMoveX);
                 }
             }
+
+            //カメラを徐々に戻す
+            _cameraController.InitPosReturn(_moveFront);
+            //カメラの回転
+            _cameraController.CameraOperation(_lookValue);
         }
     }
 
@@ -400,6 +405,8 @@ public class CarController : MonoBehaviour
             }
             //持っているアイテムを追加する
             _haveItems.Add(type);
+            //インクの最大値を上げる
+            InkMaxUp();
         }
     }
 
@@ -568,7 +575,7 @@ public class CarController : MonoBehaviour
     //インクの最大値を更新
     public void InkMaxUp()
     {
-        _maxInk += 50;
+        _maxInk += 10;
         //最大値は300
         if (_maxInk >= 300)
         {

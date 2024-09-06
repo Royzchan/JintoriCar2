@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5341549462548110225}
   - component: {fileID: 6301628056523967364}
   m_Layer: 0
-  m_Name: CreateWall
+  m_Name: Stun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
