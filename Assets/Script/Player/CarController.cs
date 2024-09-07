@@ -82,6 +82,9 @@ public class CarController : MonoBehaviour
     [SerializeField, Header("カートのモデルを入れる")]
     private GameObject[] _cartModels;
 
+    [SerializeField, Header("煙エフェクトを入れる")]
+    private GameObject[] _smokeEffects;
+
     [SerializeField, Header("カートのタイルの色を入れる")]
     private Material[] _cartTileColors;
 
@@ -310,6 +313,8 @@ public class CarController : MonoBehaviour
                 {
                     //色を塗る
                     renderer.material = _myColor;
+                    //煙のエフェクトをセット
+                    _smokeEffects[_modelNum].SetActive(true);
                     //一旦仮でインク
                     _ink -= Time.deltaTime * _gm.PlayerInkDecValue;
                     if (_ink <= 0)
@@ -318,6 +323,11 @@ public class CarController : MonoBehaviour
                     }
                 }
 
+            }
+            else
+            {
+                //煙のエフェクト消す
+                _smokeEffects[_modelNum].SetActive(false);
             }
         }
     }
