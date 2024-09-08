@@ -51,6 +51,9 @@ public class CameraController : MonoBehaviour
     //左右移動中か
     bool _isLate = false;
 
+    //リターン中か
+    bool _isRetrun = false;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -201,10 +204,18 @@ public class CameraController : MonoBehaviour
         if (float.Parse(_distanceFormatted) > float.Parse(_disFormatted))
         {
             transform.position -= _dir * Time.deltaTime * _returnSpeed;
+            _localPos = transform.localPosition;
+            _isRetrun = true;
         }
         else if (float.Parse(_distanceFormatted) < float.Parse(_disFormatted))
         {
             transform.position += _dir * Time.deltaTime * _returnSpeed;
+            _localPos = transform.localPosition;
+            _isRetrun = true;
+        }
+        else
+        {
+            _isRetrun = false;
         }
     }
 
@@ -234,6 +245,7 @@ public class CameraController : MonoBehaviour
     void LateUpdate()
     {
         if (_isCameraShake) return;
+        if (_isRetrun) return;
         Vector3 _desiredPosition = _localPos + _offset;
 
         // カメラの位置をスムーズに補間

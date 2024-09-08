@@ -63,6 +63,12 @@ public class GameManager : MonoBehaviour
     //BGMが変わったかどうか
     private bool _changeBGM = false;
 
+    [SerializeField, Header("速度アップ時のSE")]
+    private AudioClip _speedUpSE;
+
+    [SerializeField, Header("爆弾投下時のSE")]
+    private AudioClip _throwBombSE;
+
     [Header("～マップ関係～")]
     [SerializeField, Header("最初のマップタイルの色")]
     private Material _defaultMapTileColor;
@@ -111,6 +117,10 @@ public class GameManager : MonoBehaviour
     public float TimeLimit { get { return _timeLimit; } }
 
     public float CountDown { get { return _countDown; } }
+
+    public AudioClip ThrowBombSE { get { return _throwBombSE; } }
+
+    public AudioClip SpeedUpSE { get { return _speedUpSE; } }
 
     public int MaxHaveItem { get { return _maxHaveItem; } }
 

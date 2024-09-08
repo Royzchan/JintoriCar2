@@ -111,6 +111,9 @@ public class CarController : MonoBehaviour
     [SerializeField, Header("グレーのシェーダー")]
     private GrayscaleEffect _grayscaleEffect;
 
+    //音楽関係
+    private AudioSource _audioSource;
+
     #region ゲッター
 
     public float DefMaxInk { get { return _defaultMaxInk; } }
@@ -207,6 +210,9 @@ public class CarController : MonoBehaviour
 
         //ゲームマネージャーを取得
         _gm = FindAnyObjectByType<GameManager>();
+
+        //AudioSource取得
+        _audioSource = GetComponent<AudioSource>();
 
         //自分をリストに登録
         _gm.SetCarController(this);
@@ -320,6 +326,7 @@ public class CarController : MonoBehaviour
                     if (_ink <= 0)
                     {
                         _ink = 0;
+                        _smokeEffects[_modelNum].SetActive(false);
                     }
                 }
 
@@ -529,6 +536,9 @@ public class CarController : MonoBehaviour
     //爆弾を投げる
     private void ThrowBomb()
     {
+        //音を鳴らす
+        _audioSource.PlayOneShot(_gm.ThrowBombSE);
+        //爆弾を生成
         Instantiate(_gm.Bomb, this.transform.position, this.transform.rotation).GetComponent<BombController>().SetPlayerColor(this, _myColor);
     }
 
@@ -577,6 +587,9 @@ public class CarController : MonoBehaviour
     //加速
     private void Acceleration()
     {
+        //音を鳴らす
+        _audioSource.PlayOneShot(_gm.SpeedUpSE);
+        //リジッドボディで加速
         _rb.AddForce(transform.forward * _gm.PlayerAccelerationValue, ForceMode.Impulse);
     }
 

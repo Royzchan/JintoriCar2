@@ -6,6 +6,7 @@ public class BombController : MonoBehaviour
 {
     private Rigidbody _rb;
     private BoxCollider _collider;
+    private AudioSource _as;
 
     [SerializeField, Header("投げられた時に飛ぶ力(横)")]
     private float _throwPower = 5.0f;
@@ -18,6 +19,9 @@ public class BombController : MonoBehaviour
 
     [SerializeField, Header("爆発のエフェクト")]
     private GameObject _explosionEffect;
+
+    [SerializeField, Header("爆発の音")]
+    private AudioClip _explosionSE;
 
     //最初に地面に当たったか
     private bool _firstHit = false;
@@ -32,6 +36,7 @@ public class BombController : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         _collider = GetComponent<BoxCollider>();
+        _as = GetComponent<AudioSource>();
         //爆弾を前に飛ばす
         _rb.AddForce(transform.forward * _throwPower + transform.up * _throwPowerUp, ForceMode.Impulse);
     }
@@ -70,6 +75,7 @@ public class BombController : MonoBehaviour
             if(!_firstHit)
             {
                 Instantiate(_explosionEffect, transform.position, Quaternion.identity);
+                _as.PlayOneShot(_explosionSE);
                 _firstHit = true;
             }
         }
@@ -82,8 +88,6 @@ public class BombController : MonoBehaviour
         if (other.gameObject.CompareTag("MapTile"))
         {
             other.gameObject.GetComponent<Renderer>().material = _playerColor;
-            //自分を消す
-            Destroy(this.gameObject);
         }
     }
 }
