@@ -55,21 +55,9 @@ public class CarController : MonoBehaviour
     private string _name;//名前
     #endregion
 
-    //プレイヤーがダウンしている時間のカウンター
-    private float _downTimeCount = 0;
 
     //カメラにギミックがかかっているかどうか
     private bool _onCameraGimmick = false;
-
-    //カメラのギミックのタイプ
-    enum CameraGimickType
-    {
-        Rotate,
-        Zoom
-    }
-
-    //食らったカメラのギミックのタイプ
-    private CameraGimickType _hitCameraGimickType = CameraGimickType.Rotate;
 
     //カメラのギミックの効果時間のカウント
     private float _cameraGimmickCounter = 0f;
@@ -550,8 +538,6 @@ public class CarController : MonoBehaviour
         {
             //ギミックを食らっている判定をtrueに
             _onCameraGimmick = true;
-            //食らったギミックのタイプをRotateに
-            _hitCameraGimickType = CameraGimickType.Rotate;
             //カメラを回す
             CameraRotate();
         }
