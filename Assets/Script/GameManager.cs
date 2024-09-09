@@ -85,6 +85,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Header("紫のプレイヤーのマテリアル")]
     private Material _purplePlayerMat;
 
+    [SerializeField, Header("マップの枠")]
+    private GameObject _mapFence;
+
 
     //角タイルの枚数を保存
     //こっちは数を数える用
@@ -189,15 +192,22 @@ public class GameManager : MonoBehaviour
             //制限時間を引いていく
             _timeLimit -= Time.deltaTime;
 
+            //残り時間が20秒切ったら
             if (_timeLimit <= 20)
             {
+                //BGMが変更されていなかったら
                 if (!_changeBGM)
                 {
+                    //通常時のBGMを止めて
                     _normalAudio.Stop();
+                    //ラストスパートのBGMを流す
                     _lastAudio.Play();
+                    //BGMを変えたフラグをオンに
                     _changeBGM = true;
                     //アイテムのリスポーン時間を伸ばす
                     _itemSpawnTime = _lastItemSpawnTime;
+                    //枠を消す
+                    _mapFence.SetActive(false);
                 }
             }
 
