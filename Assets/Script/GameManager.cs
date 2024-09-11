@@ -114,6 +114,9 @@ public class GameManager : MonoBehaviour
     //マップタイルのレンダラー
     List<MeshRenderer> _mapTilesRender = new List<MeshRenderer>();
 
+    [SerializeField, Header("終了のUI")]
+    private FinishUI _finishUI;
+
     #region ゲッター
     public bool IsPlaying { get { return _isPlaying; } }
 
@@ -189,8 +192,11 @@ public class GameManager : MonoBehaviour
         //ゲーム中だった場合
         else
         {
-            //制限時間を引いていく
-            _timeLimit -= Time.deltaTime;
+            if(_timeLimit>=0)
+            {
+                //制限時間を引いていく
+                _timeLimit -= Time.deltaTime;
+            }
 
             //残り時間が20秒切ったら
             if (_timeLimit <= 20)
@@ -214,14 +220,17 @@ public class GameManager : MonoBehaviour
             //制限時間が0になったら
             if (_timeLimit <= 0)
             {
-                //スコアのセットがまだだったら
-                if (!_endScoreSet)
+                if(_finishUI.FinishAction())
                 {
-                    //スコアをセットして
-                    RankingSet();
-                    //ランニングシーンに移動
-                    ChangeScene.ChengeNextScene("RankingScene", 0.1f);
-                    _endScoreSet = true;
+                    //スコアのセットがまだだったら
+                    if (!_endScoreSet)
+                    {
+                        //スコアをセットして
+                        RankingSet();
+                        //ランニングシーンに移動
+                        ChangeScene.ChengeNextScene("RankingScene", 0.1f);
+                        _endScoreSet = true;
+                    }
                 }
             }
 
