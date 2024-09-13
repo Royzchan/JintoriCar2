@@ -50,3 +50,6 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: UIParticleLayer
+    uniqueID: 2544370003
+    locked: 0
