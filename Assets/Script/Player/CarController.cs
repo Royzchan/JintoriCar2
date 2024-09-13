@@ -28,7 +28,10 @@ public class CarController : MonoBehaviour
     private float _defaultCameraRotateSpeed = 2.0f;
 
     [SerializeField, Header("最初の最大インク量")]
-    public float _defaultMaxInk = 100f;
+    private float _defaultMaxInk = 100f;
+
+    [SerializeField, Header("車の強化できるインク量の最大値")]
+    private float _powerUpMaxInk = 450;
 
     [SerializeField, Header("インクの回復速度")]
     private float _defaultInkHealSpeed = 2f;
@@ -329,11 +332,8 @@ public class CarController : MonoBehaviour
 
     //プレイヤーの初期の値をセット
     //モデルと色
-    public void SetFirst(int hp, CartType type, CartColor color)
+    public void SetFirst(CartType type, CartColor color)
     {
-        //HPをセット
-        _defaultMaxInk = hp;
-        _ink = _defaultMaxInk;
         //カートモデルを見る
         for (int i = 0; i < _cartModels.Count(); i++)
         {
@@ -423,21 +423,44 @@ public class CarController : MonoBehaviour
     //アイテムを使う関数
     private void UseItem()
     {
-        //アイテムリストにアイテムが入っていたら
-        if (_haveItems.Count > 0)
+
+        //スタン中じゃなくて
+        if(!_hitStun)
         {
-            switch (_haveItems[0])
+            //アイテムリストにアイテムが入っていたら
+            if (_haveItems.Count > 0)
             {
-                case ItemType.Attack://攻撃(減速)
-                    //加速する
-                    Acceleration();
-                    _useItemuNum -= 1;
-                    if (_useItemuNum <= 0)
-                    {
+                switch (_haveItems[0])
+                {
+                    case ItemType.Attack://攻撃(減速)
+                                         //加速する
+                        Acceleration();
+                        _useItemuNum -= 1;
+                        if (_useItemuNum <= 0)
+                        {
+                            //使ったアイテムを消す
+                            _haveItems.RemoveAt(0);
+                            //消した後にアイテムが残っていたら
+                            if (_haveItems.Count > 0)
+                            {
+                                if (_haveItems[0] == ItemType.Attack)
+                                {
+                                    _useItemuNum = 3;
+                                }
+                                else
+                                {
+                                    _useItemuNum = 1;
+                                }
+                            }
+                        }
+                        break;
+
+                    case ItemType.Bomb://爆弾
+                        ThrowBomb();
                         //使ったアイテムを消す
                         _haveItems.RemoveAt(0);
                         //消した後にアイテムが残っていたら
-                        if(_haveItems.Count > 0)
+                        if (_haveItems.Count > 0)
                         {
                             if (_haveItems[0] == ItemType.Attack)
                             {
@@ -448,62 +471,44 @@ public class CarController : MonoBehaviour
                                 _useItemuNum = 1;
                             }
                         }
-                    }
-                    break;
+                        break;
 
-                case ItemType.Bomb://爆弾
-                    ThrowBomb();
-                    //使ったアイテムを消す
-                    _haveItems.RemoveAt(0);
-                    //消した後にアイテムが残っていたら
-                    if (_haveItems.Count > 0)
-                    {
-                        if (_haveItems[0] == ItemType.Attack)
+                    case ItemType.Camera_Rotate://カメラ(回転)
+                        _gm.Item_CameraRotate_All(this);
+                        //使ったアイテムを消す
+                        _haveItems.RemoveAt(0);
+                        //消した後にアイテムが残っていたら
+                        if (_haveItems.Count > 0)
                         {
-                            _useItemuNum = 3;
+                            if (_haveItems[0] == ItemType.Attack)
+                            {
+                                _useItemuNum = 3;
+                            }
+                            else
+                            {
+                                _useItemuNum = 1;
+                            }
                         }
-                        else
-                        {
-                            _useItemuNum = 1;
-                        }
-                    }
-                    break;
+                        break;
 
-                case ItemType.Camera_Rotate://カメラ(回転)
-                    _gm.Item_CameraRotate_All(this);
-                    //使ったアイテムを消す
-                    _haveItems.RemoveAt(0);
-                    //消した後にアイテムが残っていたら
-                    if (_haveItems.Count > 0)
-                    {
-                        if (_haveItems[0] == ItemType.Attack)
+                    case ItemType.Stun://スタン
+                        _gm.Item_Stun_All(this);
+                        //使ったアイテムを消す
+                        _haveItems.RemoveAt(0);
+                        //消した後にアイテムが残っていたら
+                        if (_haveItems.Count > 0)
                         {
-                            _useItemuNum = 3;
+                            if (_haveItems[0] == ItemType.Attack)
+                            {
+                                _useItemuNum = 3;
+                            }
+                            else
+                            {
+                                _useItemuNum = 1;
+                            }
                         }
-                        else
-                        {
-                            _useItemuNum = 1;
-                        }
-                    }
-                    break;
-
-                case ItemType.Stun://スタン
-                    _gm.Item_Stun_All(this);
-                    //使ったアイテムを消す
-                    _haveItems.RemoveAt(0);
-                    //消した後にアイテムが残っていたら
-                    if (_haveItems.Count > 0)
-                    {
-                        if (_haveItems[0] == ItemType.Attack)
-                        {
-                            _useItemuNum = 3;
-                        }
-                        else
-                        {
-                            _useItemuNum = 1;
-                        }
-                    }
-                    break;
+                        break;
+                }
             }
         }
     }
@@ -589,11 +594,12 @@ public class CarController : MonoBehaviour
     //インクの最大値を更新
     public void InkMaxUp()
     {
-        _maxInk += 10;
-        //最大値は300
-        if (_maxInk >= 300)
+        _maxInk += _gm.GetItemInkUpValue;
+        //最大値を超えた場合
+        if (_maxInk >= _powerUpMaxInk)
         {
-            _maxInk = 300;
+            //最大値にする
+            _maxInk = _powerUpMaxInk;
         }
     }
 
@@ -601,7 +607,7 @@ public class CarController : MonoBehaviour
     public void HitStun()
     {
         //スタンに当たっていなかった場合
-        if(!_hitStun)
+        if (!_hitStun)
         {
             //スタンしてる判定をオンに
             _hitStun = true;

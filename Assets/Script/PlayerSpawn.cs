@@ -19,8 +19,6 @@ public enum CartColor
 public class PlayerSpawn : MonoBehaviour
 {
     [Header("～スポーンする車の設定～")]
-    [SerializeField, Header("車の最大HP")]
-    private int _cartHP = 100;
 
     [SerializeField, Header("カートをどのタイプでスポーンさせるか")]
     private CartType _cartType;
@@ -53,7 +51,7 @@ public class PlayerSpawn : MonoBehaviour
         //クローンを生成して生成下オブジェクトのプレイヤーを登録
         _cartController = Instantiate(_cart, this.transform.position, this.transform.rotation).GetComponent<CarController>();
         //int型に変換して引数に登録
-        _cartController.SetFirst(_cartHP, _cartType, _cartColor);
+        _cartController.SetFirst(_cartType, _cartColor);
         //HPゲージの更新を設定
         _healthGauge.SetCar(_cartController);
         //画像の変更をするスクリプトカートをセット

@@ -54,6 +54,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Header("インクの減少量")]
     private float _playerInkDecValue = 3.0f;
 
+    [SerializeField, Header("アイテム取得時のインクの増加量")]
+    private float _getItemInkUpValue = 50.0f;
+
     [Header("～音楽関係～")]
     [SerializeField, Header("通常時のBGMのAudioSource")]
     private AudioSource _normalAudio;
@@ -144,6 +147,8 @@ public class GameManager : MonoBehaviour
 
     public float PlayerInkDecValue { get { return _playerInkDecValue; } }
 
+    public float GetItemInkUpValue { get { return _getItemInkUpValue; } }
+
     public int MapTileNum() { return _mapTiles.Length; }
 
     public int DefaultTileNum { get { return _defaultTileNum; } }
@@ -192,7 +197,7 @@ public class GameManager : MonoBehaviour
         //ゲーム中だった場合
         else
         {
-            if(_timeLimit>=0)
+            if (_timeLimit >= 0)
             {
                 //制限時間を引いていく
                 _timeLimit -= Time.deltaTime;
@@ -220,7 +225,7 @@ public class GameManager : MonoBehaviour
             //制限時間が0になったら
             if (_timeLimit <= 0)
             {
-                if(_finishUI.FinishAction())
+                if (_finishUI.FinishAction())
                 {
                     //スコアのセットがまだだったら
                     if (!_endScoreSet)

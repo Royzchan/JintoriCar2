@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class RankingData : MonoBehaviour
@@ -10,4 +11,10 @@ public class RankingData : MonoBehaviour
     public static Dictionary<int, Material> _playerScore = new Dictionary<int, Material>();
     //‰½l‚ÅƒvƒŒƒC‚µ‚Ä‚¢‚é‚©‚ð•Û‘¶
     public static int _playerNum = 0;
+
+    public static PlayerData GetRankData(int rank)
+    {
+        var data = playerDatas.OrderByDescending(d => d._score).ToArray()[rank];
+        return data;
+    }
 }

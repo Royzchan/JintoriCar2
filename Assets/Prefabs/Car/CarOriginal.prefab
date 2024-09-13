@@ -274,7 +274,7 @@ MonoBehaviour:
   _defaultMaxSpeed: 20
   _defaultRotateValue: 3
   _defaultCameraRotateSpeed: 2
-  _defaultMaxInk: 100
+  _defaultMaxInk: 200
   _defaultInkHealSpeed: 1
   _cameraController: {fileID: 6954095940804689619}
   _cartModels:
