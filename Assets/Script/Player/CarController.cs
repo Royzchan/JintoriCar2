@@ -79,6 +79,12 @@ public class CarController : MonoBehaviour
     [SerializeField, Header("カートのタイルの色を入れる")]
     private Material[] _cartTileColors;
 
+    [SerializeField, Header("加速のエフェクト")]
+    private GameObject _dashEffect;
+
+    [SerializeField, Header("加速のエフェクトを出す場所")]
+    private GameObject _dashEffectPos;
+
     #region アイテム関係の変数
     //所持しているアイテムのリスト
     private List<ItemType> _haveItems = new List<ItemType>();
@@ -425,7 +431,7 @@ public class CarController : MonoBehaviour
     {
 
         //スタン中じゃなくて
-        if(!_hitStun)
+        if (!_hitStun)
         {
             //アイテムリストにアイテムが入っていたら
             if (_haveItems.Count > 0)
@@ -580,6 +586,10 @@ public class CarController : MonoBehaviour
     {
         //音を鳴らす
         _audioSource.PlayOneShot(_gm.SpeedUpSE);
+
+        //加速のエフェクトを生成
+        Instantiate(_dashEffect, _dashEffectPos.transform.position, _dashEffectPos.transform.rotation).transform.parent = this.transform;
+
         //リジッドボディで加速
         _rb.AddForce(transform.forward * _gm.PlayerAccelerationValue, ForceMode.Impulse);
     }

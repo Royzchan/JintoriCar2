@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5941447430870738225}
   - component: {fileID: 4333525022349513855}
   - component: {fileID: 5691242257338757870}
+  - component: {fileID: 2700505779751318352}
   m_Layer: 0
   m_Name: DashEff
   m_TagString: Untagged
@@ -48,7 +49,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 1
+  looping: 0
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -4828,3 +4829,15 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &2700505779751318352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 172768325307991211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b010ed9553dcfe4b8206cb0c2b16e83, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
