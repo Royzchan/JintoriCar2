@@ -5,9 +5,6 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/Maps/Map1.unity
-    guid: 88aacb71e5524d3418757dc05be75996
   - enabled: 1
     path: Assets/Scenes/TitleScene.unity
     guid: d24c0b5592328954d8beb38363d7d368
@@ -17,13 +14,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/RankingScene.unity
     guid: c4aeca7d5e7093a48b260e2f51652f26
-  - enabled: 0
-    path: Assets/Scenes/Maps/Map2.unity
-    guid: 98518f1cba5a7194a83763d4a2bc8520
-  - enabled: 0
-    path: Assets/Scenes/Maps/Map4.unity
-    guid: fd4098b1fd799a540bf43e1fadef7335
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 9fc0d4010bbf28b4594072e72b8655ab
   m_configObjects: {}
