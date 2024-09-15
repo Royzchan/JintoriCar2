@@ -547,6 +547,8 @@ public class CarController : MonoBehaviour
         //カメラのギミックを食らっていなかったら
         if (!_onCameraGimmick)
         {
+            //音を鳴らす
+            _audioSource.PlayOneShot(_gm.WarningSE);
             //ギミックを食らっている判定をtrueに
             _onCameraGimmick = true;
             //カメラを回す
@@ -619,6 +621,8 @@ public class CarController : MonoBehaviour
         //スタンに当たっていなかった場合
         if (!_hitStun)
         {
+            //音を鳴らす
+            _audioSource.PlayOneShot(_gm.WarningSE);
             //スタンしてる判定をオンに
             _hitStun = true;
             //スタンの時間をセット

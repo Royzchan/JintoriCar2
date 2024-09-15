@@ -75,6 +75,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Header("爆弾投下時のSE")]
     private AudioClip _throwBombSE;
 
+    [SerializeField, Header("警告時のSE")]
+    private AudioClip _warningSE;
+
     [Header("～マップ関係～")]
     [SerializeField, Header("最初のマップタイルの色")]
     private Material _defaultMapTileColor;
@@ -133,6 +136,8 @@ public class GameManager : MonoBehaviour
     public AudioClip ThrowBombSE { get { return _throwBombSE; } }
 
     public AudioClip SpeedUpSE { get { return _speedUpSE; } }
+
+    public AudioClip WarningSE { get { return _warningSE; } }
 
     public int MaxHaveItem { get { return _maxHaveItem; } }
 
