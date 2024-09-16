@@ -290,7 +290,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: c04bca6e590f44a46919e1d825e9e1cd, type: 2}
   - {fileID: 2100000, guid: 8a223b801855df449bfc76b91dce0caa, type: 2}
   - {fileID: 2100000, guid: 506f6ff70f5c0174d922bd0dcfb7858e, type: 2}
-  _dashEffect: {fileID: 172768325307991211, guid: 7067524089ffb3a4ba8befe9d6fa7a14, type: 3}
+  _dashEffect: {fileID: 172768325307991211, guid: 66fb38243f65cd5409039601aacc9a75, type: 3}
   _dashEffectPos: {fileID: 8696084123880392660}
   _grayscaleEffect: {fileID: 4432038556294706266}
 --- !u!114 &1803494941998123419
@@ -588,7 +588,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2739636038624854200
 Transform:
   m_ObjectHideFlags: 0
@@ -678,13 +678,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8696084123880392660}
   serializedVersion: 2
-  m_LocalRotation: {x: 1, y: 0, z: 0, w: 0}
+  m_LocalRotation: {x: 0, y: -1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 2.28}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7515913704897708968}
-  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 180, y: 0, z: 180}
 --- !u!1001 &627540040736950257
 PrefabInstance:
   m_ObjectHideFlags: 0

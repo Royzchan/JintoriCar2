@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class DashEffectController : MonoBehaviour
 {
-    //¶¬‚³‚ê‚Ä‚©‚ç‰½•bŒã‚ÉÁ‚·‚©
-    private float _deletTime = 5.0f;
+    [SerializeField,Header("¶¬‚³‚ê‚Ä‚©‚ç‰½•bŒã‚ÉÁ‚·‚©")]
+    private float _deletTime = 3.0f;
 
     void Update()
     {

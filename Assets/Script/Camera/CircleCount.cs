@@ -40,6 +40,11 @@ public class CircleCount : MonoBehaviour
                 _circleCountImage.gameObject.SetActive(true);
                 _circleCountText.gameObject.SetActive(true);
             }
+            if(_gm.TimeLimit<=0)
+            {
+                _circleCountImage.gameObject.SetActive(false);
+                _circleCountText.gameObject.SetActive(false);
+            }
             _circleCountText.text = _gm.TimeLimit.ToString("####");
             countDownElapsedTime += Time.deltaTime;
             _circleCountImage.fillAmount = countDownElapsedTime % 1.0f;

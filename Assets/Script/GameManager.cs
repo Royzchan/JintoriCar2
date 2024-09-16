@@ -57,15 +57,13 @@ public class GameManager : MonoBehaviour
     [SerializeField, Header("アイテム取得時のインクの増加量")]
     private float _getItemInkUpValue = 50.0f;
 
-    [SerializeField,Header("後半のスカイボックス")]
-    private Material _lastSkyBox;
-
     [Header("～音楽関係～")]
     [SerializeField, Header("通常時のBGMのAudioSource")]
     private AudioSource _normalAudio;
 
     [SerializeField, Header("終盤時のBGMのAudioSource")]
     private AudioSource _lastAudio;
+
     //BGMが変わったかどうか
     private bool _changeBGM = false;
 
@@ -225,9 +223,6 @@ public class GameManager : MonoBehaviour
                     _changeBGM = true;
                     //アイテムのリスポーン時間を伸ばす
                     _itemSpawnTime = _lastItemSpawnTime;
-
-                    //空を夕方に
-                    RenderSettings.skybox = _lastSkyBox;
                     //枠を消す
                     _mapFence.SetActive(false);
                 }

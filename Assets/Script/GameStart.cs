@@ -17,6 +17,9 @@ public class GameStart : MonoBehaviour
     [SerializeField]
     float _speed;
 
+    [SerializeField,Header("ÉVÅ[ÉìêÿÇËë÷Ç¶Ç‹Ç≈ÇÃéûä‘")]
+    private float _changeTime = 0;
+
     private int _count = 0;
 
     bool _sceneChange = false;
@@ -70,7 +73,7 @@ public class GameStart : MonoBehaviour
                     _count++;
                     if(_count == _titleInputs.Length)
                     {
-                        transform.parent.GetComponent<ChangeScene>().Button_ChangeNext();
+                        StartCoroutine(LateSceneChange());
                         _sceneChange = true;
                     }
                 }
@@ -80,5 +83,16 @@ public class GameStart : MonoBehaviour
                 _gaugeImages[i].fillAmount -= _speed;
             }
         }
+    }
+
+    IEnumerator LateSceneChange()
+    {
+        yield return new WaitForSeconds(_changeTime);
+        transform.parent.GetComponent<ChangeScene>().Button_ChangeNext();
+    }
+
+    public bool GetSceneChange()
+    {
+        return _sceneChange;
     }
 }
