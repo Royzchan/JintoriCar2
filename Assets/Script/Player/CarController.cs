@@ -366,7 +366,15 @@ public class CarController : MonoBehaviour
 
         //カラーをセット
         _myColor = _cartTileColors[(int)color];
-        _arrowObj.GetComponent<Renderer>().material = _arrowMats[(int)color];
+        switch (color)
+        {
+            case CartColor.green:
+                _arrowObj.GetComponent<MeshRenderer>().material = _arrowMats[0];
+                break;
+            case CartColor.red:
+                _arrowObj.GetComponent<MeshRenderer>().material = _arrowMats[1];
+                break;
+        }
     }
 
     //どのアイテムを持っているかを渡す
