@@ -111,6 +111,13 @@ public class CarController : MonoBehaviour
     //音楽関係
     private AudioSource _audioSource;
 
+    //マップ
+    [SerializeField, Header("ミニマップに表示する矢印")]
+    private Material[] _arrowMats;
+
+    [SerializeField, Header("矢印を表示するタイル")]
+    private GameObject _arrowObj;
+
     #region ゲッター
 
     public float DefMaxInk { get { return _defaultMaxInk; } }
@@ -359,6 +366,7 @@ public class CarController : MonoBehaviour
 
         //カラーをセット
         _myColor = _cartTileColors[(int)color];
+        _arrowObj.GetComponent<Renderer>().material = _arrowMats[(int)color];
     }
 
     //どのアイテムを持っているかを渡す

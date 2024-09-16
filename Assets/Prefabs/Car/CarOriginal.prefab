@@ -293,6 +293,10 @@ MonoBehaviour:
   _dashEffect: {fileID: 172768325307991211, guid: 66fb38243f65cd5409039601aacc9a75, type: 3}
   _dashEffectPos: {fileID: 8696084123880392660}
   _grayscaleEffect: {fileID: 4432038556294706266}
+  _arrowMats:
+  - {fileID: 2100000, guid: 51b56f97feb859f41b6adfd21579c2c4, type: 2}
+  - {fileID: 2100000, guid: 964ca22099d88074dbb8c475d000411e, type: 2}
+  _arrowObj: {fileID: 4115219943957457739}
 --- !u!114 &1803494941998123419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -597,13 +601,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4115219943957457739}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 1.5900003, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 1, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7515913704897708968}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!33 &1749248047027078692
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -632,7 +636,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 51b56f97feb859f41b6adfd21579c2c4, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
