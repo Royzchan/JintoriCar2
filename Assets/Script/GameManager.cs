@@ -67,6 +67,9 @@ public class GameManager : MonoBehaviour
     //BGMが変わったかどうか
     private bool _changeBGM = false;
 
+    [SerializeField, Header("アイテム取得時のSE")]
+    private AudioClip _getItemSE;
+
     [SerializeField, Header("速度アップ時のSE")]
     private AudioClip _speedUpSE;
 
@@ -130,6 +133,8 @@ public class GameManager : MonoBehaviour
     public float TimeLimit { get { return _timeLimit; } }
 
     public float CountDown { get { return _countDown; } }
+
+    public AudioClip GetItemSE { get { return _getItemSE; } }
 
     public AudioClip ThrowBombSE { get { return _throwBombSE; } }
 

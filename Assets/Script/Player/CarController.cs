@@ -100,6 +100,9 @@ public class CarController : MonoBehaviour
     //スタンのタイマー
     private float _stunTimer = 0f;
 
+    [SerializeField, Header("爆弾のモデル")]
+    private GameObject _bombModel;
+
     #endregion
 
     //カメラ関係
@@ -294,12 +297,14 @@ public class CarController : MonoBehaviour
                 {
                     //通常の向きで回転
                     Turn(_inputMoveX);
+                    _cameraController.Smooth(_inputMoveX);
                 }
                 //カメラのギミックに当たっていた場合
                 else
                 {
                     //操作反転
                     Turn(-_inputMoveX);
+                    _cameraController.Smooth(-_inputMoveX);
                 }
             }
 
@@ -430,11 +435,19 @@ public class CarController : MonoBehaviour
                 {
                     _useItemuNum = 3;
                 }
+                else if(type == ItemType.Bomb)
+                {
+                    //爆弾を頭上に接地
+                    _bombModel.SetActive(true);
+                    _useItemuNum = 1;
+                }
                 else
                 {
                     _useItemuNum = 1;
                 }
             }
+            //音を鳴らす
+            _audioSource.PlayOneShot(_gm.GetItemSE);
             //持っているアイテムを追加する
             _haveItems.Add(type);
             //インクの最大値を上げる
@@ -469,6 +482,12 @@ public class CarController : MonoBehaviour
                                 {
                                     _useItemuNum = 3;
                                 }
+                                else if (_haveItems[0] == ItemType.Bomb)
+                                {
+                                    //爆弾を頭上に接地
+                                    _bombModel.SetActive(true);
+                                    _useItemuNum = 1;
+                                }
                                 else
                                 {
                                     _useItemuNum = 1;
@@ -488,6 +507,12 @@ public class CarController : MonoBehaviour
                             {
                                 _useItemuNum = 3;
                             }
+                            else if (_haveItems[0] == ItemType.Bomb)
+                            {
+                                //爆弾を頭上に接地
+                                _bombModel.SetActive(true);
+                                _useItemuNum = 1;
+                            }
                             else
                             {
                                 _useItemuNum = 1;
@@ -506,6 +531,12 @@ public class CarController : MonoBehaviour
                             {
                                 _useItemuNum = 3;
                             }
+                            else if (_haveItems[0] == ItemType.Bomb)
+                            {
+                                //爆弾を頭上に接地
+                                _bombModel.SetActive(true);
+                                _useItemuNum = 1;
+                            }
                             else
                             {
                                 _useItemuNum = 1;
@@ -523,6 +554,12 @@ public class CarController : MonoBehaviour
                             if (_haveItems[0] == ItemType.Attack)
                             {
                                 _useItemuNum = 3;
+                            }
+                            else if (_haveItems[0] == ItemType.Bomb)
+                            {
+                                //爆弾を頭上に接地
+                                _bombModel.SetActive(true);
+                                _useItemuNum = 1;
                             }
                             else
                             {
@@ -553,8 +590,10 @@ public class CarController : MonoBehaviour
     {
         //音を鳴らす
         _audioSource.PlayOneShot(_gm.ThrowBombSE);
+        //ボムのモデルを消す
+        _bombModel.SetActive(false);
         //爆弾を生成
-        Instantiate(_gm.Bomb, this.transform.position, this.transform.rotation).GetComponent<BombController>().SetPlayerColor(this, _myColor);
+        Instantiate(_gm.Bomb, _bombModel.transform.position, this.transform.rotation).GetComponent<BombController>().SetPlayerColor(this, _myColor);
     }
 
     //カメラ回転の攻撃を食らった場合

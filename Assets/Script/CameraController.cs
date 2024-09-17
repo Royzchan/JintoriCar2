@@ -224,7 +224,7 @@ public class CameraController : MonoBehaviour
     //Update‚É‘‚­
     public void InitPosReturn(bool isFront)
     {
-        if (!isFront) return;
+        //if (!isFront) return;
         if (_isLate) return;
 
         //¬”“_‘æ2ˆÊlÌŒÜ“ü
