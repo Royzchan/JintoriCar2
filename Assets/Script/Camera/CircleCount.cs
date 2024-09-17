@@ -18,8 +18,6 @@ public class CircleCount : MonoBehaviour
 
     bool _active = false;
 
-    float countDownElapsedTime;
-
     // Start is called before the first frame update
     void Start()
     {
@@ -30,24 +28,18 @@ public class CircleCount : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (_gm.TimeLimit <= 1)
-        {
-            _circleCountImage.gameObject.SetActive(false);
-            _circleCountText.gameObject.SetActive(false);
-        }
         //ゲーム中だったら制限時間のテキストを更新
         if (_gm.IsPlaying)
         {
-            if (_gm.TimeLimit.ToString("####") == "") return;
-            if (int.Parse(_gm.TimeLimit.ToString("####")) > _actionTime) return;
+            if (_gm.TimeLimit > _actionTime) return;
             if (!_active)
             {
                 _circleCountImage.gameObject.SetActive(true);
                 _circleCountText.gameObject.SetActive(true);
+                _active = true;
             }
-            _circleCountText.text = _gm.TimeLimit.ToString("####");
-            countDownElapsedTime += Time.deltaTime;
-            _circleCountImage.fillAmount = countDownElapsedTime % 1.0f;
+            _circleCountText.text = Mathf.Ceil(_gm.TimeLimit).ToString();
+            _circleCountImage.fillAmount = _gm.TimeLimit % 1.0f;
         }
     }
 }
