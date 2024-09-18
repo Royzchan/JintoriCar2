@@ -449,6 +449,14 @@ public class CarController : MonoBehaviour
                 {
                     _useItemuNum = 1;
                 }
+                //アイテム取得時のエフェクトを呼ぶ
+                _itemEffController.PlayEffect();
+            }
+            //アイテムを持っていた場合
+            else
+            {
+                //アイテム取得時のエフェクトを呼ぶ
+                _itemEffController.PlaySubEffect();
             }
             //音を鳴らす
             _audioSource.PlayOneShot(_gm.GetItemSE);
@@ -456,8 +464,6 @@ public class CarController : MonoBehaviour
             _haveItems.Add(type);
             //インクの最大値を上げる
             InkMaxUp();
-            //アイテム取得時のエフェクトを呼ぶ
-            _itemEffController.PlayEffect();
         }
     }
 
