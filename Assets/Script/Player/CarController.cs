@@ -103,6 +103,8 @@ public class CarController : MonoBehaviour
     [SerializeField, Header("爆弾のモデル")]
     private GameObject _bombModel;
 
+    private GetItemEffectController _itemEffController;
+
     #endregion
 
     //カメラ関係
@@ -350,7 +352,7 @@ public class CarController : MonoBehaviour
 
     //プレイヤーの初期の値をセット
     //モデルと色
-    public void SetFirst(CartType type, CartColor color)
+    public void SetFirst(CartType type, CartColor color,GetItemEffectController eff)
     {
         //カートモデルを見る
         for (int i = 0; i < _cartModels.Count(); i++)
@@ -380,6 +382,8 @@ public class CarController : MonoBehaviour
                 _arrowObj.GetComponent<MeshRenderer>().material = _arrowMats[1];
                 break;
         }
+        //アイテム取得時のエフェクトの生成するスクリプトをセット
+        _itemEffController = eff;
     }
 
     //どのアイテムを持っているかを渡す
@@ -452,6 +456,8 @@ public class CarController : MonoBehaviour
             _haveItems.Add(type);
             //インクの最大値を上げる
             InkMaxUp();
+            //アイテム取得時のエフェクトを呼ぶ
+            _itemEffController.PlayEffect();
         }
     }
 

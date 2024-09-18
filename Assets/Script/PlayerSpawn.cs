@@ -26,6 +26,9 @@ public class PlayerSpawn : MonoBehaviour
     [SerializeField, Header("カートのタイルの色をどうするか")]
     private CartColor _cartColor;
 
+    [SerializeField,Header("アイテム取得時のエフェクト生成するやつ")]
+    private GetItemEffectController _itemEffectController;
+
     [Header("～システム関連の設定～")]
 
     [SerializeField, Header("カートのPrefab")]
@@ -51,7 +54,7 @@ public class PlayerSpawn : MonoBehaviour
         //クローンを生成して生成下オブジェクトのプレイヤーを登録
         _cartController = Instantiate(_cart, this.transform.position, this.transform.rotation).GetComponent<CarController>();
         //int型に変換して引数に登録
-        _cartController.SetFirst(_cartType, _cartColor);
+        _cartController.SetFirst(_cartType, _cartColor,_itemEffectController);
         //HPゲージの更新を設定
         _healthGauge.SetCar(_cartController);
         //画像の変更をするスクリプトカートをセット

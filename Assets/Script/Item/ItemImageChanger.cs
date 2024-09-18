@@ -21,6 +21,9 @@ public class ItemImageChanger : MonoBehaviour
     [SerializeField, Header("アイテムの残り使用回数のテキスト")]
     private Text _itemUseNum;
 
+    [SerializeField, Header("加速のアイテムの使用回数のUI")]
+    private GameObject[] _itemUseNumImage;
+
     //プレイヤー
     private CarController _carController;
 
@@ -36,42 +39,59 @@ public class ItemImageChanger : MonoBehaviour
 
     private void Update()
     {
-        //更新しないようなら早期リターン
+        
         if (!_isUpdate) return;
 
-        if (!_carController.Have1StItem())
-        {
-            _itemUseNum.gameObject.SetActive(false);
-        }
-        else
-        {
-            _itemUseNum.gameObject.SetActive(true);
-        }
-
-        if (_itemUseNum != null)
-        {
-            _itemUseNum.text = _carController.UseItemNum.ToString();
-        }
         switch (_carController.Get1stItem())
         {
             case ItemType.None:
                 _image.sprite = _clearImage;
+                _itemUseNumImage[0].SetActive(false);
+                _itemUseNumImage[1].SetActive(false);
+                _itemUseNumImage[2].SetActive(false);
                 break;
 
             case ItemType.Attack:
                 _image.sprite = _itemImage[(int)ItemType.Attack];
+                switch (_carController.UseItemNum)
+                {
+                    case 1:
+                        _itemUseNumImage[0].SetActive(false);
+                        _itemUseNumImage[1].SetActive(false);
+                        _itemUseNumImage[2].SetActive(true);
+                        break;
+                    case 2:
+                        _itemUseNumImage[0].SetActive(false);
+                        _itemUseNumImage[1].SetActive(true);
+                        _itemUseNumImage[2].SetActive(true);
+                        break;
+                    case 3:
+                        _itemUseNumImage[0].SetActive(true);
+                        _itemUseNumImage[1].SetActive(true);
+                        _itemUseNumImage[2].SetActive(true);
+                        break;
+                }
                 break;
 
             case ItemType.Bomb:
                 _image.sprite = _itemImage[1];
+                _itemUseNumImage[0].SetActive(false);
+                _itemUseNumImage[1].SetActive(false);
+                _itemUseNumImage[2].SetActive(false);
                 break;
 
             case ItemType.Camera_Rotate:
                 _image.sprite = _itemImage[2];
+                _itemUseNumImage[0].SetActive(false);
+                _itemUseNumImage[1].SetActive(false);
+                _itemUseNumImage[2].SetActive(false);
                 break;
 
             case ItemType.Stun:
                 _image.sprite = _itemImage[3];
+                _itemUseNumImage[0].SetActive(false);
+                _itemUseNumImage[1].SetActive(false);
+                _itemUseNumImage[2].SetActive(false);
                 break;
         }
 

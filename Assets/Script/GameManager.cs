@@ -44,6 +44,9 @@ public class GameManager : MonoBehaviour
     [SerializeField, Header("爆弾のプレファブ")]
     private GameObject _bomb;
 
+    [SerializeField, Header("アイテム取得時に出るエフェクト")]
+    private GameObject _getItemEffect;
+
     [SerializeField, Header("スタンの時間")]
     private float _stunTime = 5.0f;
 
@@ -151,6 +154,8 @@ public class GameManager : MonoBehaviour
     public float ItemSpawnTime { get { return _itemSpawnTime; } }
 
     public GameObject Bomb { get { return _bomb; } }
+
+    public GameObject GetItemEffect { get { return _getItemEffect; } }
 
     public float StunTime { get { return _stunTime; } }
 

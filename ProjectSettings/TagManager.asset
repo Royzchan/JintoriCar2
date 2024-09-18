@@ -53,3 +53,6 @@ TagManager:
   - name: UIParticleLayer
     uniqueID: 2544370003
     locked: 0
+  - name: UIEffectLayer
+    uniqueID: 2008567595
+    locked: 0
