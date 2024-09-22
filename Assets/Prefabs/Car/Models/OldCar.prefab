@@ -106,6 +106,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 35e44e5dd1edc64408d715eaf33f7077, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0af0db0821a4d35478ec314fb1cd05a6, type: 2}
     - target: {fileID: 919132149155446097, guid: 35e44e5dd1edc64408d715eaf33f7077, type: 3}
       propertyPath: m_Name
       value: cardboard_car3_tire_front_right
@@ -168,6 +172,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 49d4703113c81c647a84d1c2de796205, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0af0db0821a4d35478ec314fb1cd05a6, type: 2}
     - target: {fileID: 919132149155446097, guid: 49d4703113c81c647a84d1c2de796205, type: 3}
       propertyPath: m_Name
       value: cardboard_car3_body
@@ -230,6 +238,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 62281ecb2600f7b46a24a97d8e589f84, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0af0db0821a4d35478ec314fb1cd05a6, type: 2}
     - target: {fileID: 919132149155446097, guid: 62281ecb2600f7b46a24a97d8e589f84, type: 3}
       propertyPath: m_Name
       value: cardboard_car3_tire_rear_right
@@ -292,6 +304,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d821adc163109944b9ccd5ba7e017b41, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0af0db0821a4d35478ec314fb1cd05a6, type: 2}
     - target: {fileID: 919132149155446097, guid: d821adc163109944b9ccd5ba7e017b41, type: 3}
       propertyPath: m_Name
       value: cardboard_car3_tire_rear_left
@@ -354,6 +370,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 55a51141f9ae23242bcc4d904d1e6f0e, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 0af0db0821a4d35478ec314fb1cd05a6, type: 2}
     - target: {fileID: 919132149155446097, guid: 55a51141f9ae23242bcc4d904d1e6f0e, type: 3}
       propertyPath: m_Name
       value: cardboard_car3_tire_front_left

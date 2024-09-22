@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class GameStart : MonoBehaviour
 {
 
-    [SerializeField,Header("コントローラーのInput")]
+    [SerializeField, Header("コントローラーのInput")]
     private TitleInput[] _titleInputs;
     [SerializeField]
     InputAction[] _startAction;
@@ -17,23 +17,37 @@ public class GameStart : MonoBehaviour
     [SerializeField]
     float _speed;
 
-    [SerializeField,Header("シーン切り替えまでの時間")]
+    [SerializeField, Header("準備完了のテキスト")]
+    private GameObject[] _redyText;
+ 
+    [SerializeField, Header("シーン切り替えまでの時間")]
     private float _changeTime = 0;
 
     private int _count = 0;
 
     bool _sceneChange = false;
 
+    public void Set1TiteInput(TitleInput input)
+    {
+        _titleInputs[0] = input;
+    }
+
+    public void Set2TiteInput(TitleInput input)
+    {
+        _titleInputs[1] = input;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        for(int i = 0; i < _gaugeImages.Length; i++){
+        for (int i = 0; i < _gaugeImages.Length; i++)
+        {
             _gaugeImages[i].fillAmount = 0;
         }
     }
     private void OnEnable()
     {
-        for(int i = 0; i < _startAction.Length; i++)
+        for (int i = 0; i < _startAction.Length; i++)
         {
             _startAction[i].Enable();
         }
@@ -58,7 +72,7 @@ public class GameStart : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(_sceneChange) return;
+        if (_sceneChange) return;
 
         _count = 0;
 
@@ -71,7 +85,8 @@ public class GameStart : MonoBehaviour
                 if (_gaugeImages[i].fillAmount >= 0.5f)
                 {
                     _count++;
-                    if(_count == _titleInputs.Length)
+                    _redyText[i].SetActive(true);
+                    if (_count == _titleInputs.Length)
                     {
                         StartCoroutine(LateSceneChange());
                         _sceneChange = true;
@@ -81,6 +96,7 @@ public class GameStart : MonoBehaviour
             else
             {
                 _gaugeImages[i].fillAmount -= _speed;
+                _redyText[i].SetActive(false);
             }
         }
     }
