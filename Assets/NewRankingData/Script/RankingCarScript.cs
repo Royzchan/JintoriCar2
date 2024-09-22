@@ -26,7 +26,6 @@ public class RankingCarScript : RankingProcess
     {
         //アニメーションの時間を取得
         var state = _animator.GetCurrentAnimatorStateInfo(0);
-        Debug.Log(state.length);
         //その時間分待機
         yield return new WaitForSeconds(state.length);
         //終了

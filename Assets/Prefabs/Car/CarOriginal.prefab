@@ -110,7 +110,7 @@ MonoBehaviour:
   _returnSpeed: 1
   _initPosReturnSpeed: 1
   _smoothSpeed: 0.125
-  _lateValue: 0.12
+  _lateValue: 0.06
   _rotateImage: {fileID: 4793825732058150472, guid: 3398ae9964bba0f44a303c87c962a75d, type: 3}
   _rotateTime: 2
   _rotatePosY: 20
