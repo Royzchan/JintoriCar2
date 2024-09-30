@@ -10,15 +10,21 @@ public class CameraController : MonoBehaviour
     private float _returnSpeed = 1f;
     [SerializeField, Header("初期位置に徐々に戻るスピード")]
     private float _initPosReturnSpeed = 0.05f;
-    [SerializeField,Header("カメラが少し遅れてくる速度")]
+    [SerializeField, Header("カメラが少し遅れてくる速度")]
     private float _smoothSpeed = 0.125f;
-    [SerializeField,Header("遅れる大きさ")]
+
+    Vector3 _desiredPosition;
+    [SerializeField, Header("遅れる大きさ")]
     private float _lateValue = 0.3f;
-    [SerializeField,Header("上下反転時に表示する画像")]
+    [SerializeField, Header("カーブ中に何秒間カメラを回転させるか")]
+    private float _angleLimitTime = 2f;
+    //カーブ中に何秒カメラを回転させるかのカウンター
+    private float _angleLimitCounter = 0;
+    [SerializeField, Header("上下反転時に表示する画像")]
     private Image _rotateImage;
-    [SerializeField,Header("何秒後に反転するか")]
+    [SerializeField, Header("何秒後に反転するか")]
     private float _rotateTime;
-    [SerializeField,Header("上下反転時の画像のY座標設定")]
+    [SerializeField, Header("上下反転時の画像のY座標設定")]
     float _rotatePosY;
 
     //RotateImageを配置するCanvas
@@ -65,6 +71,7 @@ public class CameraController : MonoBehaviour
         //小数点第2位四捨五入
         _distanceFormatted = _distance.ToString("F1");
         _localPos = transform.localPosition;
+        _desiredPosition = _localPos;
 
         RotateImageInstantiate();
     }
@@ -224,7 +231,7 @@ public class CameraController : MonoBehaviour
     //Updateに書く
     public void InitPosReturn(bool isFront)
     {
-        //if (!isFront) return;
+        if (!isFront) return;
         if (_isLate) return;
 
         //小数点第2位四捨五入
@@ -246,7 +253,13 @@ public class CameraController : MonoBehaviour
     {
         if (_isCameraShake) return;
         if (_isRetrun) return;
-        Vector3 _desiredPosition = _localPos + _offset;
+
+
+        //回せる時間を下回っていたら
+        if (_angleLimitCounter <= _angleLimitTime)
+        {
+            _desiredPosition = _localPos + _offset;
+        }
 
         // カメラの位置をスムーズに補間
         Vector3 _smoothedPosition = Vector3.Lerp(transform.localPosition, _desiredPosition, _smoothSpeed);
@@ -273,27 +286,29 @@ public class CameraController : MonoBehaviour
 
     public void Smooth(float value)
     {
-        if(value == 0)
+        if (value == 0)
         {
             _isLate = false;
             _offset.x = 0;
             _offset.z = 0;
+            _angleLimitCounter = 0;
         }
-        else if(value > 0)
+        else if (value > 0)
         {
             _isLate = true;
             // 角度をラジアンに変換
             float _radians = transform.localEulerAngles.y * Mathf.Deg2Rad;
             _offset.x = Mathf.Cos(_radians) * _lateValue;
             _offset.z = -Mathf.Sin(_radians) * _lateValue;
+            _angleLimitCounter += Time.deltaTime;
         }
         else if (value < 0)
         {
             _isLate = true;
-            // 角度をラジアンに変換
             float _radians = transform.localEulerAngles.y * Mathf.Deg2Rad;
             _offset.x = -Mathf.Cos(_radians) * _lateValue;
             _offset.z = Mathf.Sin(_radians) * _lateValue;
+            _angleLimitCounter += Time.deltaTime;
         }
     }
 

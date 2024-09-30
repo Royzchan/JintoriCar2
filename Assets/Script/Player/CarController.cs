@@ -312,8 +312,6 @@ public class CarController : MonoBehaviour
 
             //ƒJƒƒ‰‚ğ™X‚É–ß‚·
             _cameraController.InitPosReturn(_moveFront);
-            //ƒJƒƒ‰‚Ì‰ñ“]
-            _cameraController.CameraOperation(_lookValue);
         }
     }
 
